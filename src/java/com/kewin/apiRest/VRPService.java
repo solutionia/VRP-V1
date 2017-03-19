@@ -9,11 +9,9 @@ import com.kewin.controller.InterSolutionController;
 import com.kewin.entities.Problem;
 import com.kewin.entities.Solution;
 import com.kewin.utils.Constans;
-import javax.ws.rs.BeanParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 /**
  *

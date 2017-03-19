@@ -177,7 +177,7 @@ public class ProblemSolution implements HttpClientListener {
             vehicleImpls.add(
                     VehicleImpl.Builder
                             .newInstance(vehicle.getVehicleId())
-                            .setStartLocation(Location.newInstance(problem.getNode_Depot().getLocationStart().getLocationId()))
+                            .setStartLocation(Location.newInstance(problem.getNode_Depot().getLocation().getLocationId()))
                             .setType(type)
                             .setReturnToDepot(true)
                             .build()
@@ -220,10 +220,10 @@ public class ProblemSolution implements HttpClientListener {
 
     private String generateTransportDistanceTimeGoTo() {
         String latLongs = "";
-        latLongs = latLongs + "|" + problem.getNode_Depot().getLocationStart().getLatitude() + "," + problem.getNode_Depot().getLocationStart().getLongitude();
+        latLongs = latLongs + "|" + problem.getNode_Depot().getLocation().getLatitude() + "," + problem.getNode_Depot().getLocation().getLongitude();
         Node_Client clientDepot = new Node_Client();
         clientDepot.setNodeClientId(problem.getNode_Depot().getNodeDepotId());
-        clientDepot.setLocation(problem.getNode_Depot().getLocationStart());
+        clientDepot.setLocation(problem.getNode_Depot().getLocation());
         clientDepot.setIsDepot(true);
         int o = 0;
         for (int i = 0; i < problem.getClients().size(); i++) {

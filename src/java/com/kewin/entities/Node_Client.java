@@ -23,6 +23,7 @@ public class Node_Client {
     private int sequence;
     //Formato especificado por el objeto
     private TimeWindow timeWindow;
+    //Verifica si es un deposito o no lo es.
     private boolean isDepot;
 
     public Node_Client() {

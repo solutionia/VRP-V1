@@ -15,18 +15,16 @@ public class Node_Depot {
     private String nodeDepotId;
     private String name;
     private double capacity; 
-    private Location locationStart;
-    private Location locationEnd;
+    private Location location;
 
     public Node_Depot() {
     }
 
-    public Node_Depot(String nodeDepotId, String name, double capacity, Location locationStart, Location locationEnd) {
+    public Node_Depot(String nodeDepotId, String name, double capacity, Location location) {
         this.nodeDepotId = nodeDepotId;
         this.name = name;
         this.capacity = capacity;
-        this.locationStart = locationStart;
-        this.locationEnd = locationEnd;
+        this.location = location;
     }
 
     public String getNodeDepotId() {
@@ -53,23 +51,12 @@ public class Node_Depot {
         this.capacity = capacity;
     }
 
-    public Location getLocationStart() {
-        return locationStart;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocationStart(Location locationStart) {
-        this.locationStart = locationStart;
+    public void setLocation(Location locationStart) {
+        this.location = locationStart;
     }
 
-    public Location getLocationEnd() {
-        return locationEnd;
-    }
-
-    public void setLocationEnd(Location locationEnd) {
-        this.locationEnd = locationEnd;
-    }
-    
-    
-    
-    
 }

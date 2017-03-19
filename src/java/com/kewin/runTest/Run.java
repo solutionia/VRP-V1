@@ -128,13 +128,6 @@ public class Run {
                                 -12.0178427,
                                 -76.900919,
                                 "Av. Nicolás de Ayllón 7548, Lima",
-                                "150103"),
-                        //No Utilizar XD
-                        new Location(
-                                "LOC0002",
-                                -12.0178427,
-                                -76.900919,
-                                "Av. Nicolás de Ayllón 7548, Lima",
                                 "150103")),
                 clients,
                 vehicles,
@@ -142,9 +135,15 @@ public class Run {
         
          InterSolutionController controller = new InterSolutionController(problem);
         controller.execute();
-       
-      //  VehicleRoutingProblemSolution solu = controller.getSolution();
-        String jsonInString;
+           
+        ObjectMapper mapper = new ObjectMapper();
+        
+        try {
+            String jsonInString = mapper.writeValueAsString(problem);
+            System.out.println(""+jsonInString);
+        } catch (IOException ex) {
+            Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+        }
    
        
         

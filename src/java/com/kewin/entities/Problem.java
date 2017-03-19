@@ -111,11 +111,5 @@ public class Problem {
 
     public void setApiKeyGoogle(String apiKeyGoogle) {
         this.apiKeyGoogle = apiKeyGoogle;
-    }
-    
-    
-    
-    
-
-
+    }    
 }
