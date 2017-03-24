@@ -14,5 +14,7 @@ import javax.ws.rs.core.Application;
  */
 @ApplicationPath("ServiceApi")
 public class JAXRSConfiguration extends Application {
-    
+
+ 
+
 }

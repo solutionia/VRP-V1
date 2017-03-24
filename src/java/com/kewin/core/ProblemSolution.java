@@ -30,14 +30,12 @@ import com.kewin.entities.Rute;
 import com.kewin.entities.Solution;
 import com.kewin.entities.Vehicle;
 import com.kewin.httpRequest.HttpClient;
-import com.kewin.interfaces.HttpClientListener;
-import com.kewin.interfaces.SolutionProblemListener;
+import com.kewin.httpRequest.HttpClientListener;
 import com.kewin.utils.Constans;
 import com.kewin.utils.Log;
 import com.kewin.utils.Utils;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,71 +54,74 @@ public class ProblemSolution implements HttpClientListener {
     private HashMap<Integer, Node_Client> hashMaNodes;
     private Solution solution;
 
-    /**
-     * Create Vehicule*
-     */
-    public ProblemSolution(Problem problem) {
+    public static ProblemSolution newInstance() {
+        return new ProblemSolution();
+    }
+
+    public ProblemSolution() {
+        this.solution = new Solution();
         this.hashMaNodes = new HashMap<Integer, Node_Client>();
-        this.problem = problem;
         this.costMatrixBuilder = VehicleRoutingTransportCostsMatrix.Builder.newInstance(Constans.ISSYMETRYC_FALSE);
 
     }
 
-    public Solution executeProblem() {
+    public ProblemSolution setProblem(Problem problem) {
+        this.problem = problem;
+        return this;
+    }
 
+    public ProblemSolution runDistancesMatrix() {
+        String latlong = generateTransportDistanceTimeGoTo();
+        runGetGoogleMatrixParams(latlong);
+        return this;
+    }
+
+    public ProblemSolution runBuildServices() {
+        getVehicleImpl();
+        getServices();
+        return this;
+    }
+
+    public void runBuildSolution() {
         try {
 
-            String latlong = generateTransportDistanceTimeGoTo();
-            runGetGoogleMatrixParams(latlong);
-            getVehicleImpl();
-            getServices();
             buildCostMatrix();
             generateVrpProblem();
             VehicleRoutingAlgorithm vra = Jsprit.createAlgorithm(vrp);
             Collection<VehicleRoutingProblemSolution> solutions = vra.searchSolutions();
-
             SolutionPrinter.print(vrp, Solutions.bestOf(solutions), SolutionPrinter.Print.VERBOSE);
             VehicleRoutingProblemSolution problemSolution = Solutions.bestOf(solutions);
-
-            return getSolution(problemSolution);
+            runSolution(problemSolution);
         } catch (Exception e) {
-            return null;
+            this.solution.setIsSuccess(false);
+            this.solution.setMessageError(e.getMessage());
         }
-
     }
 
-    private Solution getSolution(VehicleRoutingProblemSolution problemSolution) {
-
-        Solution solution = new Solution();
-        solution.setSolutionId("");
+    private Solution runSolution(VehicleRoutingProblemSolution problemSolution) {
+        solution.setSolutionId("S-" + problem.getProblemId());
         solution.setDate(Utils.getDateCurrent());
-        //Enviar Deposito
         solution.setDepots(problem.getNode_Depot());
         List<Rute> rutes = new ArrayList<>();
-
         int routeNu = 1;
         List<VehicleRoute> list = new ArrayList<VehicleRoute>(problemSolution.getRoutes());
         for (VehicleRoute route : list) {
-
             Vehicle vehicleRuta = new Vehicle();
             List<Node_Client> clients = new ArrayList<>();
             int secuence = 0;
             TourActivity prevAct = route.getStart();
             for (TourActivity act : route.getActivities()) {
                 for (Vehicle vehicle : problem.getVehicles()) {
-
                     if (vehicle.getVehicleId().equals(route.getVehicle().getId())) {
                         vehicleRuta = vehicle;
                     }
                 }
-
                 String jobId;
                 if (act instanceof TourActivity.JobActivity) {
                     jobId = ((TourActivity.JobActivity) act).getJob().getId();
 
                     for (Node_Client client : problem.getClients()) {
                         if (client.getNodeClientId().equals(jobId)) {
-
                             secuence = secuence + 1;
                             client.setSequence(secuence);
                             clients.add(client);
@@ -130,14 +131,20 @@ public class ProblemSolution implements HttpClientListener {
                 } else {
                     jobId = "-";
                 }
-
                 rutes.add(new Rute("", "", vrp.getActivityCosts().getActivityCost(act, act.getArrTime(), route.getDriver(), route.getVehicle()), vehicleRuta, clients));
-
                 prevAct = act;
             }
-
+            runSolutionUnassignedClients(problemSolution);
             routeNu++;
         }
+        solution.setRutes(rutes);
+        solution.setIsSuccess(true);
+        solution.setProblem(problem);
+        return solution;
+
+    }
+
+    private void runSolutionUnassignedClients(VehicleRoutingProblemSolution problemSolution) {
         if (problem.isIsFinite()) {
 
             List<Node_Client> unassignedClients = new ArrayList<>();
@@ -154,11 +161,6 @@ public class ProblemSolution implements HttpClientListener {
             solution.setIsRutesCompleted(false);
             solution.setUnassignedClients(unassignedClients);
         }
-
-        solution.setRutes(rutes);
-        solution.setIsSuccess(true);
-        return solution;
-
     }
 
     private List<VehicleImpl> getVehicleImpl() {
@@ -171,7 +173,7 @@ public class ProblemSolution implements HttpClientListener {
                     addCapacityDimension(
                             0,
                             vehicle.getVehicleType().getCapacity().intValue())
-                    .setCostPerDistance(1)
+                    .setCostPerDistance(vehicle.getVehicleType().getCostPerDistanceKm().intValue())
                     .build();
 
             vehicleImpls.add(
@@ -211,9 +213,9 @@ public class ProblemSolution implements HttpClientListener {
     }
 
     private void generateVrpProblem() {
-        VehicleRoutingProblem.FleetSize fleetSize =VehicleRoutingProblem.FleetSize.FINITE;
-        if(!problem.isIsFinite()){
-            fleetSize =VehicleRoutingProblem.FleetSize.INFINITE;
+        VehicleRoutingProblem.FleetSize fleetSize = VehicleRoutingProblem.FleetSize.FINITE;
+        if (!problem.isIsFinite()) {
+            fleetSize = VehicleRoutingProblem.FleetSize.INFINITE;
         }
         vrp = VehicleRoutingProblem.Builder.newInstance().setFleetSize(fleetSize).setRoutingCost(costMatrixBuilder.build()).addAllJobs(getServices()).addAllVehicles(getVehicleImpl()).build();
     }
@@ -290,7 +292,12 @@ public class ProblemSolution implements HttpClientListener {
 
     @Override
     public void onError(String message) {
-        //  Log.e(TAG, message);
+        this.solution.setIsSuccess(false);
+        this.solution.setMessageError(message);
+    }
+    
+    public Solution getSolution(){
+        return solution;
     }
 
 }

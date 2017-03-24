@@ -32,11 +32,13 @@ public class Solution {
     //Campos para el manejo de errores
     private boolean isSuccess;
     private String messageError;
+    
+    private Problem problem;
 
     public Solution() {
     }
 
-    public Solution(String solutionId, String date, Double costPerFlexDistanceKm, Node_Depot depots, List<Rute> rutes, boolean isRutesCompleted, String messageAdicional,  List<Node_Client> unassignedClients, boolean isSuccess, String messageError) {
+    public Solution(String solutionId, String date, Double costPerFlexDistanceKm, Node_Depot depots, List<Rute> rutes, boolean isRutesCompleted, String messageAdicional, List<Node_Client> unassignedClients, boolean isSuccess, String messageError, Problem problem) {
         this.solutionId = solutionId;
         this.date = date;
         this.costPerFlexDistanceKm = costPerFlexDistanceKm;
@@ -47,7 +49,18 @@ public class Solution {
         this.unassignedClients = unassignedClients;
         this.isSuccess = isSuccess;
         this.messageError = messageError;
+        this.problem = problem;
     }
+
+    public Problem getProblem() {
+        return problem;
+    }
+
+    public void setProblem(Problem problem) {
+        this.problem = problem;
+    }
+
+ 
 
     public List<Node_Client> getUnassignedClients() {
         return unassignedClients;

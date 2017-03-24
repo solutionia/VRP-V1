@@ -5,9 +5,10 @@
  */
 package com.kewin.apiRest;
 
-import com.kewin.controller.InterSolutionController;
 import com.kewin.entities.Problem;
 import com.kewin.entities.Solution;
+import com.kewin.solution.vrp.SolutionPresenter;
+import com.kewin.solution.vrp.SolutionPresenterImpl;
 import com.kewin.utils.Constans;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -18,13 +19,19 @@ import javax.ws.rs.Produces;
  * @author Kelv
  */
 @Path("VRPService")
-public class VRPService {
-
+public class VRPService {    
+   
+    
     @POST
     @Produces(Constans.MEDYA_TYPE_APPLICATION_JSON)
-    public Solution drawRoutes(Problem problem) {
-        InterSolutionController controller = new InterSolutionController(problem);
-        controller.execute();
-        return controller.getSolution();
+    public Solution drawRoutes(Problem problem) {    
+       SolutionPresenter presenter = new SolutionPresenterImpl();
+       presenter.sendProblem(problem);
+       return  presenter.getSolution();
+    }
+    @Path("HELLO")
+    @POST
+    public String hello(){
+    return "Hola Kelvin";
     }
 }

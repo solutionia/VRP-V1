@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Material Admin</title>
+
+    <!-- Vendor CSS -->
+    <link href="vendors/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
+    <link href="vendors/animate-css/animate.min.css" rel="stylesheet">
+    <link href="vendors/sweet-alert/sweet-alert.min.css" rel="stylesheet">
+    <link href="vendors/material-icons/material-design-iconic-font.min.css" rel="stylesheet">
+    <link href="vendors/socicon/socicon.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link href="css/app.min.1.css" rel="stylesheet">
+    <link href="css/app.min.2.css" rel="stylesheet">
+</head>
+<body>
+    <header id="header">
+        <ul class="header-inner">
+            <li id="menu-trigger" data-trigger="#sidebar">
+                <div class="line-wrap">
+                    <div class="line top"></div>
+                    <div class="line center"></div>
+                    <div class="line bottom"></div>
+                </div>
+            </li>
+
+            <li class="logo hidden-xs">
+                <a href="index.html">Material Admin</a>
+            </li>
+
+            <li class="pull-right">
+                <ul class="top-menu">
+                    <li id="toggle-width">
+                        <div class="toggle-switch">
+                            <input id="tw-switch" type="checkbox" hidden="hidden">
+                            <label for="tw-switch" class="ts-helper"></label>
+                        </div>
+                    </li>                 
+                </ul>
+            </li>
+        </ul>
+
+        <!-- Top Search Content -->
+        <div id="top-search-wrap">
+            <input type="text">
+            <i id="top-search-close">&times;</i>
+        </div>
+    </header>
+
+    <section id="main">
+        <aside id="sidebar">
+            <div class="sidebar-inner">
+                <div class="si-inner">
+                    <div class="profile-menu">
+                        <a href="">
+                            <div class="profile-pic">
+                                <img src="img/profile-pics/1.jpg" alt="">
+                            </div>
+
+                            <div class="profile-info">
+                                Malinda Hollaway
+
+                                <i class="md md-arrow-drop-down"></i>
+                            </div>
+                        </a>
+
+
+                    </div>
+
+                    <ul class="main-menu">
+                      <li><a href="DashboardMap.html"><i class="md md-home"></i>Planificar</a></li>
+                        <li><a href="DashboardServices.html"><i class="md md-person"></i>Clientes</a></li>
+                        <li><a href="DashboardTimeWindows.html"><i class="md md-timer"></i>Ventana de Tiempo</a></li>
+                        <li><a href="DashboardVehiculos.html"><i class="md md-directions-car"></i>Vehiculos</a></li>
+                        <li><a href="DashboardTypoVehiculos.html"><i class="md md-local-car-wash"></i>Tipo Vehiculo</a></li>
+                        <li><a href="DashboardLocation.html"><i class="md md-location-on"></i>Ubicacion</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+    
+        <section id="content">
+
+            <div id="cardContent" class="container">
+
+
+                <table id="tableVehiculos" class="table table-bordered">
+                    <thead class="bg-primary">
+                        <tr>
+                            <td>ID</td>
+                            <td>DESCRIPCION</td>
+                            <td>PLACA</td>
+                            <td>Tipo Vehiculo</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     
+                    </tbody>
+                </table>
+
+            </div>
+            <br/>
+
+            <a id="btnAgregar"  style="margin-left: 70%" href="##modalDefault"  data-toggle="modal" class="btn bgm-red btn-float left waves-effect waves-effect waves-button waves-float"><i class="md md-add"></i></a>
+        </section>
+    </section>
+
+    <div class="modal fade" id="modalDefault" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <input type="email" id="idnombre" class="form-control">
+                        </div>
+                        <label class="fg-label">Nombre</label>
+                    </div>
+
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <input type="email" id="idplaca" class="form-control">
+                        </div>
+                        <label class="fg-label">Placa</label>
+                    </div>
+
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <b>Tipo:</b>
+                            <select id="idtipo" >
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnGuardarDatos" type="button" class="btn btn-link">Guardar</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  <div class="modal fade" id="modalTypoVehiculo" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modificar tipo</h4>
+                </div>
+                <div class="modal-body">
+                    <select id="selecttipo">
+                        
+                    </select>
+                 
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnGuardartipo" type="button" class="btn btn-link">Guardar</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="vendors/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="vendors/bootgrid/jquery.bootgrid.min.js"></script>
+    <script src="vendors/waves/waves.min.js"></script>
+    <script src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+    <script src="vendors/sweet-alert/sweet-alert.min.js"></script>
+
+    <script src="js/functions.js"></script>
+    <script src="js/demo.js"></script>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+
+    <script  src="functions/funVehiculos.js" ></script>
+
+</body>
+</html>

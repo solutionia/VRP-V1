@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "kewin-6f6cb",
+  "private_key_id": "d616a9ff424e905bbd42229d9bf9177494dc5d66",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDCVtH9GZmsnuSb\nz20ZgOJG3yZ9xKvastsESS2BCkRUho1Lmp4OWxX4Co1XMtcgg8eerv6YhBo+2216\nayvO+8BW+JCoITf0UYdt8EpqVR574+18mwy5dIWTwM0X3SUKaVjK2U4nZMJIfY8r\nWu5mw+wmM52PHiRKjAXQVVHvQeOkH12JwEQ4QEoyge0ziuUm2sHyFma2Y5oNcTr0\nPz2F1CjnFEAqQLiqBu079zTszvSpsAooBozvd/GbmmEecsFiHjPM7eQhY+lvfTa8\n7qyoizeBM+78CJZEMYsW4nqheLS5iHaWdUGMlonazqPGYx8FcBetkz+jv/TCJlcg\nVRq6wQidAgMBAAECggEBAJ4clOwfD/BptgUuVc0SFwciNubMRCXCrn5mKyd5eu5q\nKjsAqOd1JAKSUzxGmNBTZu2r4mej0tahIAkheJsGKA6aXNbtb+DPFChV/7VTW2Hg\npy9h1pBsROFZU4O+4Iv/+cXP1s4mJAtmXD0h1iS18kOCawYtt8kO8wv03pySNusn\nTc3fLjCD9wScZI+KrgKIte9Zssu2rJmdjpY528O40vg6dYxNTeGp6uB7Py8jNor5\nuCny86M42KZw0undnJX8kGfTpRKXwia6+eezVXmDtJQak2dqZvF743RFqQjP7kHF\nRBQIzUgQxYHucAMkJEa/DklfFzPXO+wYnyZ/dFbQ2eECgYEA737gdunKEgMSwuDx\naT1nXAEj22K13jAEOC5H8IwaViCXm4juVNRDgnBEWMLVh0nBPnx9A32DofynZqnm\nh/xPpNdbzRbFtZe7DeuNsE8eWAhVQ7R11JumBv6X+Qjt2mwbN3fg/3sy1/tFrjDv\nOXwP7WKDlgggBKdQs5txD7VkbscCgYEAz7tN03QXxcKkUY7x1n7BSma2icO2X99f\n1dq0fzA+15JM8vQK3F6KeOs98VrICyuKdGLGRikICPNdyfgsyKXyBKniYYayOsOH\nxhekrVFG20lSoUiVG3rS7yRE/PmPd2O5zqZfPxsxd3pEsjSt0jPl9ckE1AlUgKme\nnuAydjr+uXsCgYB4gn5ON6uvTo6VMv0muHgW6pfxX4UmDUFCR795QfZKmlHPOKK8\nWqaxru4lP7yUO7+aQqfhJroiu3A8j4dpq8Mjrh4KX8gSbQv5oCqGqfkZ0O+ehuK3\nna54XIl6DU0qGDXFvnOf+o0F8vEICqWFZnDZQTX3O5Vo4gwQpEnK3rpvpwKBgDt3\naiMTQ87oFnQGkLKPnLO4zZ6IeUfewSeOMUeLvyGlDwQp2oYVRlyxMw1JqKSR9VO2\nBv6EtnkhegLcWa2i27J8E4NJtPHfkZmioRDAiKEzz0S+a3jvYzz0TA+DPY+267T9\nqZx+I14JkWrWa8AV/UmsHwa4GQmwBOmEUs3Hu63LAoGAW9NdaPTvfv1mwNgI3eaJ\n4KOBA5dXQoAO6msK4EbrjgeDYeKThvm+fnK48Z2y2fPrxXhCct6gactBZN+g1O37\nlj9jkzjs+g+Uwsg7tJ7LSnjC6BhFhHLOiuBScFnqE3tzMTKdSlf7cWpvubRGaNml\nS8klEL/Azo5Xd9Xcbs5KqoI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "kewinapi@kewin-6f6cb.iam.gserviceaccount.com",
+  "client_id": "107087822537887150074",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kewinapi%40kewin-6f6cb.iam.gserviceaccount.com"
+}

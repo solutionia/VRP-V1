@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import com.kewin.interfaces.HttpClientListener;
 import com.kewin.utils.Log;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
