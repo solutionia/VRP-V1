@@ -58,12 +58,35 @@ $(document).ready(function (ev) {
                 + " <td>" + timeWindows.timeWindowId + "</td>"
                 + " <td>" + timeWindows.startTime + "</td>"
                 + " <td>" + timeWindows.endTime + "</td>"
+                + " <td><a id='el" + timeWindows.timeWindowId + "' href='#'><i class=\"md md-delete\"></i></a></td>"
                 + " </tr>";
 
         $("#tableTimeWindows tbody").append(html);
 
+        $("#el" + timeWindows.timeWindowId + "").click(function (e) {
+            swal({
+                title: "Atencion...!",
+                text: "Esta seguro de eliminar",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, eliminar!",
+                closeOnConfirm: false
+            }, function () {
+                eliminar(timeWindows);
+            });
+        });
+
     }
 
+    function eliminar(timeWindows) {
+        ruta_.child(timeWindows.timeWindowId).remove().then(function () {
+            swal("Eliminado!", "", "success");
+            listarTimeWindows();
+        });
+        ;
+
+    }
 
 });
 

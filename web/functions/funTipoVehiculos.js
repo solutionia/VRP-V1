@@ -18,10 +18,10 @@ $(document).ready(function (ev) {
     };
     firebase.initializeApp(config);
     var database = firebase.database();
-  var ruta_ = database.ref('TYPO_VEHICULO');
+    var ruta_ = database.ref('TYPO_VEHICULO');
 
     $("#btnGuardarDatos").click(function (e) {
-      
+
         var newPostKey = ruta_.push().key;
         console.log(newPostKey);
 
@@ -60,12 +60,33 @@ $(document).ready(function (ev) {
                 + " <td>" + vehiculo.vehicleTypeId + "</td>"
                 + " <td>" + vehiculo.capacity + "</td>"
                 + " <td>" + vehiculo.costPerDistanceKm + "</td>"
+                + " <td><a id='el" + vehiculo.vehicleTypeId + "' href='#'><i class=\"md md-delete\"></i></a></td>"
                 + " </tr>";
 
         $("#tableTipoVehiculo tbody").append(html);
+        $("#el" + vehiculo.vehicleTypeId + "").click(function (e) {
+            swal({
+                title: "Atencion...!",
+                text: "Esta seguro de eliminar",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, eliminar!",
+                closeOnConfirm: false
+            }, function () {
+                eliminar(vehiculo);
+            });
+        });
 
     }
+    function eliminar(vehiculo) {
+        ruta_.child(vehiculo.vehicleTypeId).remove().then(function () {
+            swal("Eliminado!", "", "success");
+            listarTypeVehiculo();
+        });
+        ;
 
+    }
 
 
 });

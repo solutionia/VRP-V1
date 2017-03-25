@@ -61,7 +61,9 @@ $(document).ready(function (ev) {
                 + " <td>" + vehiculo.vehicleId + "</td>"
                 + " <td>" + vehiculo.description + "</td>"
                 + " <td>" + vehiculo.carPlate + "</td>"
-                + " <td> <a id='ve" + vehiculo.vehicleId + "' href='#'>" + vehiculo.vehicleType.capacity + " - "+vehiculo.vehicleType.costPerDistanceKm+"</a></td>"
+                + " <td> <a id='ve" + vehiculo.vehicleId + "' href='#'>" + vehiculo.vehicleType.capacity + " - " + vehiculo.vehicleType.costPerDistanceKm + "</a></td>"
+                + " <td><a id='el" + vehiculo.vehicleId + "' href='#'><i class=\"md md-delete\"></i></a></td>"
+
                 + " </tr>";
 
         $("#tableVehiculos tbody").append(html);
@@ -69,8 +71,30 @@ $(document).ready(function (ev) {
         $('#ve' + vehiculo.vehicleId).click(function (e) {
             showUpdateTipo(vehiculo);
         });
-    }
 
+        $("#el" + vehiculo.vehicleId + "").click(function (e) {
+            swal({
+                title: "Atencion...!",
+                text: "Esta seguro de eliminar",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, eliminar!",
+                closeOnConfirm: false
+            }, function () {
+                eliminar(vehiculo);
+            });
+        });
+
+    }
+    function eliminar(vehiculo) {
+        ruta_.child(vehiculo.vehicleId).remove().then(function () {
+            swal("Eliminado!", "", "success");
+            listarVehiculos();
+        });
+        ;
+
+    }
     llenartipo();
 
     function llenartipo() {
@@ -83,7 +107,7 @@ $(document).ready(function (ev) {
                 var jsonObject = JSON.stringify(object);
                 console.log("object");
                 console.log(object);
-                var html = "<option data-value='"+jsonObject+"'>CA: " + object.capacity + " - $$: " + object.costPerDistanceKm + "</option>";
+                var html = "<option data-value='" + jsonObject + "'>CA: " + object.capacity + " - $$: " + object.costPerDistanceKm + "</option>";
                 $("#selecttipo").append(html);
 
 

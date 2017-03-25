@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -84,7 +85,6 @@ public class ProblemSolution implements HttpClientListener {
 
     public void runBuildSolution() {
         try {
-
             buildCostMatrix();
             generateVrpProblem();
             VehicleRoutingAlgorithm vra = Jsprit.createAlgorithm(vrp);
@@ -105,6 +105,7 @@ public class ProblemSolution implements HttpClientListener {
         List<Rute> rutes = new ArrayList<>();
         int routeNu = 1;
         List<VehicleRoute> list = new ArrayList<VehicleRoute>(problemSolution.getRoutes());
+        Map<String, Rute> map = new HashMap<>();
         for (VehicleRoute route : list) {
             Vehicle vehicleRuta = new Vehicle();
             List<Node_Client> clients = new ArrayList<>();
@@ -125,18 +126,23 @@ public class ProblemSolution implements HttpClientListener {
                             secuence = secuence + 1;
                             client.setSequence(secuence);
                             clients.add(client);
-
                         }
                     }
+
                 } else {
                     jobId = "-";
                 }
-                rutes.add(new Rute("", "", vrp.getActivityCosts().getActivityCost(act, act.getArrTime(), route.getDriver(), route.getVehicle()), vehicleRuta, clients));
+                map.put(vehicleRuta.getVehicleId(), new Rute( vrp.getActivityCosts().getActivityCost(act, act.getArrTime(), route.getDriver(), route.getVehicle()), vehicleRuta, clients));
+
                 prevAct = act;
             }
             runSolutionUnassignedClients(problemSolution);
             routeNu++;
         }
+        for (Rute rute : map.values()) {
+            rutes.add(rute);
+        }
+
         solution.setRutes(rutes);
         solution.setIsSuccess(true);
         solution.setProblem(problem);
@@ -158,8 +164,13 @@ public class ProblemSolution implements HttpClientListener {
 
                 }
             }
-            solution.setIsRutesCompleted(false);
-            solution.setUnassignedClients(unassignedClients);
+            if (unassignedClients.size() > 0) {
+                solution.setIsRutesCompleted(false);
+                solution.setUnassignedClients(unassignedClients);
+            }else{
+                solution.setIsRutesCompleted(true);
+            }
+
         }
     }
 
@@ -295,8 +306,8 @@ public class ProblemSolution implements HttpClientListener {
         this.solution.setIsSuccess(false);
         this.solution.setMessageError(message);
     }
-    
-    public Solution getSolution(){
+
+    public Solution getSolution() {
         return solution;
     }
 

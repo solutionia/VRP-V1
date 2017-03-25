@@ -13,8 +13,7 @@ import java.util.List;
  */
 public class Rute {
     
-    private String ruteId;
-    private String name;
+ 
     private double costPerDistanceKm;
     private Vehicle vehicle;
     private List<Node_Client> clients;
@@ -23,29 +22,12 @@ public class Rute {
     }
     
 
-    public Rute(String ruteId, String nombre, double cost, Vehicle vehicle, List<Node_Client> clients) {
-        this.ruteId = ruteId;
-        this.name = nombre;
+    public Rute( double cost, Vehicle vehicle, List<Node_Client> clients) {
+     
         this.costPerDistanceKm = cost;
         this.vehicle = vehicle;
         this.clients = clients;
-    }
-
-    public String getRuteId() {
-        return ruteId;
-    }
-
-    public void setRuteId(String ruteId) {
-        this.ruteId = ruteId;
-    }
-
-    public String getNombre() {
-        return name;
-    }
-
-    public void setNombre(String nombre) {
-        this.name = nombre;
-    }
+    }  
 
     public double getCost() {
         return costPerDistanceKm;

@@ -70,12 +70,33 @@ $(document).ready(function (e) {
                 + " <td>" + cliente.codigoUbigeo + "</td>"
                 + " <td>" + cliente.latitude + "</td>"
                 + " <td>" + cliente.longitude + "</td>"
+                + " <td><a id='el" + cliente.locationId + "' href='#'><i class=\"md md-delete\"></i></a></td>"
+
                 + " </tr>";
 
         $("#tableLocation tbody").append(html);
+        $("#el" + cliente.locationId + "").click(function (e) {
+            swal({
+                title: "Atencion...!",
+                text: "Esta seguro de eliminar",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, eliminar!",
+                closeOnConfirm: false
+            }, function () {
+                eliminar(cliente);
+            });
+        });
+    }
+    function eliminar(cliente) {
+        ruta_.child(cliente.locationId).remove().then(function () {
+            swal("Eliminado!", "", "success");
+            listarLocation();
+        });
+        ;
 
     }
-
 
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -92,7 +113,7 @@ $(document).ready(function (e) {
             draggable: true,
             map: map
         });
-        setLatLng(location.lat(),location.lng());
+        setLatLng(location.lat(), location.lng());
 
         marker.addListener('drag', function (event) {
             setLatLng(event.latLng.lat(), event.latLng.lng());

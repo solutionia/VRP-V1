@@ -74,6 +74,7 @@ $(document).ready(function (e) {
                 + " <td><a id='lo" + cliente.nodeClientId + "' href=\"#\" >" + cliente.location.address + "</a></td>"
                 + " <td>" + cliente.quantityOrder + "</td>"
                 + " <td><a id='tw" + cliente.nodeClientId + "' href=\"#\">" + cliente.timeWindow.startTime + " - " + cliente.timeWindow.endTime + "</a></td>"
+                + "<td> <a id='el" + cliente.nodeClientId + "' href='#'><i class=\"md md-delete\"></i></a> </td>"
                 + " </tr>";
 
         $("#tableCliente tbody").append(html);
@@ -91,6 +92,28 @@ $(document).ready(function (e) {
             mainCliente = cliente;
 
         });
+
+        $("#el" + cliente.nodeClientId + "").click(function (e) {
+            swal({
+                title: "Atencion...!",
+                text: "Esta seguro de eliminar",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, eliminar!",
+                closeOnConfirm: false
+            }, function () {
+                eliminar(cliente);
+            });
+        });
+
+    }
+    function eliminar(cliente) {
+        ruta_.child(cliente.nodeClientId).remove().then(function () {
+            swal("Eliminado!", "", "success");
+            listarClientes();
+        });
+        ;
 
     }
 
