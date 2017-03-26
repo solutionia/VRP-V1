@@ -21,7 +21,7 @@ $(document).ready(function (ev) {
     var ruta_ = database.ref('TYPO_VEHICULO');
 
     $("#btnGuardarDatos").click(function (e) {
-
+  $("#modalDefault").modal("hide");
         var newPostKey = ruta_.push().key;
         console.log(newPostKey);
 
@@ -33,7 +33,7 @@ $(document).ready(function (ev) {
             vehicleTypeId: newPostKey
 
         });
-        $("#modalDefault").hide();
+      
         listarTypeVehiculo();
     });
 

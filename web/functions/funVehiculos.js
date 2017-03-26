@@ -37,7 +37,7 @@ $(document).ready(function (ev) {
             vehicleType: tipo
         });
         listarVehiculos();
-        $("#modalDefault").hide();
+        $("#modalDefault").modal("hide");
     });
 
     listarVehiculos();
@@ -143,6 +143,7 @@ $(document).ready(function (ev) {
             }
         });
         listarVehiculos();
+        $("#btnGuardartipo").modal("hide");
     });
 
 

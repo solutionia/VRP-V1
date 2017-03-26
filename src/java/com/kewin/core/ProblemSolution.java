@@ -107,6 +107,7 @@ public class ProblemSolution implements HttpClientListener {
         List<VehicleRoute> list = new ArrayList<VehicleRoute>(problemSolution.getRoutes());
         Map<String, Rute> map = new HashMap<>();
         for (VehicleRoute route : list) {
+            double costs = 0;
             Vehicle vehicleRuta = new Vehicle();
             List<Node_Client> clients = new ArrayList<>();
             int secuence = 0;
@@ -117,6 +118,10 @@ public class ProblemSolution implements HttpClientListener {
                         vehicleRuta = vehicle;
                     }
                 }
+                double c = vrp.getTransportCosts().getTransportCost(prevAct.getLocation(), act.getLocation(), prevAct.getEndTime(), route.getDriver(),
+                        route.getVehicle());
+                c += vrp.getActivityCosts().getActivityCost(act, act.getArrTime(), route.getDriver(), route.getVehicle());
+                costs += c;
                 String jobId;
                 if (act instanceof TourActivity.JobActivity) {
                     jobId = ((TourActivity.JobActivity) act).getJob().getId();
@@ -132,10 +137,18 @@ public class ProblemSolution implements HttpClientListener {
                 } else {
                     jobId = "-";
                 }
-                map.put(vehicleRuta.getVehicleId(), new Rute( vrp.getActivityCosts().getActivityCost(act, act.getArrTime(), route.getDriver(), route.getVehicle()), vehicleRuta, clients));
+                double costo = vrp.getTransportCosts().getTransportCost(prevAct.getLocation(), route.getEnd().getLocation(), prevAct.getEndTime(),
+                        route.getDriver(), route.getVehicle());
+              
 
                 prevAct = act;
             }
+
+            double c = vrp.getTransportCosts().getTransportCost(prevAct.getLocation(), route.getEnd().getLocation(), prevAct.getEndTime(),
+                    route.getDriver(), route.getVehicle());
+            c += vrp.getActivityCosts().getActivityCost(route.getEnd(), route.getEnd().getArrTime(), route.getDriver(), route.getVehicle());
+            costs += c;
+              map.put(vehicleRuta.getVehicleId(), new Rute(costs, vehicleRuta, clients));
             runSolutionUnassignedClients(problemSolution);
             routeNu++;
         }
@@ -167,7 +180,7 @@ public class ProblemSolution implements HttpClientListener {
             if (unassignedClients.size() > 0) {
                 solution.setIsRutesCompleted(false);
                 solution.setUnassignedClients(unassignedClients);
-            }else{
+            } else {
                 solution.setIsRutesCompleted(true);
             }
 

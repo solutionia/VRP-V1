@@ -8,16 +8,19 @@ $(document).ready(function (e) {
 
     $body = $("body");
     var map;
+    var mainDeposito;
+    var mainData;
     var directionsService = new google.maps.DirectionsService();
     var locationDepot = new google.maps.LatLng(-12.046374, -77.042793);
     var mainArrayService = [];
     initMap();
-    var colors = ['red', 'green', 'blue', 'orange', 'yellow'];
+   var colors = ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"];
+
     function initMap() {
 
         map = new google.maps.Map(document.getElementById('map'), {
             center: locationDepot,
-            zoom: 8
+            zoom: 10
         });
 
     }
@@ -33,6 +36,8 @@ $(document).ready(function (e) {
     var database = firebase.database();
     var ruta_vehiculo = database.ref('VEHICULO');
     var ruta_cliente = database.ref('CLIENTE');
+    var ruta_deposito = database.ref('DEPOSITO');
+    listarDeposito();
     listarVehiculos();
     function listarVehiculos() {
         $("#tableVehiculos tbody").empty();
@@ -43,6 +48,20 @@ $(document).ready(function (e) {
                 console.log(object);
                 llenarDatosVehiculos(object);
             });
+        });
+    }
+
+    function listarDeposito() {
+        ruta_deposito.once('value').then(function (childSnapshot) {
+
+            var deposito = childSnapshot.val();
+            mainDeposito = deposito;
+            console.log("deposito");
+            console.log(deposito);
+            locationDepot = new google.maps.LatLng(deposito.location.latitude, deposito.location.longitude);
+            initMap();
+            agregarDeposito(deposito);
+
         });
     }
 
@@ -170,18 +189,7 @@ $(document).ready(function (e) {
                     "isFinite": true,
                     "dateCurrent": "29/01/2017",
                     "description": "Generar solucion para la empresa Energigas SAC",
-                    "node_Depot": {
-                        "capacity": 10000,
-                        "location": {
-                            "address": "Av. Nicolás de Ayllón 7548, Lima",
-                            "codigoUbigeo": "150103",
-                            "latitude": -12.0178427,
-                            "locationId": "LOC0002",
-                            "longitude": -76.900919
-                        },
-                        "name": "Deposito Central",
-                        "nodeDepotId": "DEP0001"
-                    },
+                    "node_Depot": mainDeposito,
                     "problemId": "PRO0001",
                     "vehicles": vehiculos
                 };
@@ -211,7 +219,9 @@ $(document).ready(function (e) {
             data: data,
             success: function (data, textStatus, jqXHR) {
                 //console.log(data);
+                 $("#divUnassignedClients").css("display", "none");
                 initMap();
+                mainData = data;
                 $body.removeClass("loading");
                 listarResultado(data);
 
@@ -231,7 +241,7 @@ $(document).ready(function (e) {
         var ruta_solucion = database.ref('SOLUTIONS');
         var newPostKey = ruta_solucion.push().key;
         ruta_solucion.child(newPostKey).set({
-            solution:solution
+            solution: solution
         });
     }
 
@@ -252,7 +262,7 @@ $(document).ready(function (e) {
     }
 
     function listarResultado(data) {
-
+        $("#divResultado").css("display", "block");
         console.log('La ruta no fue completada');
         console.log(data);
         guardarResultado(data);
@@ -264,7 +274,7 @@ $(document).ready(function (e) {
 
             } else {
                 notify('Rutas completadas correctamente', 'success');
-                
+
             }
 
         } else {
@@ -310,6 +320,7 @@ $(document).ready(function (e) {
     function llenarDatos(ruta, color) {
 
         var htmlHead = "<tr>"
+                + "<td> <input name='ver' type=\"radio\" id=\"ver" + ruta.vehicle.vehicleId + "\" /></td>"
                 + "  <td><a href='#' style='color:" + color + "' > [---] &nbsp &nbsp <a/><img  width=\"40px\" src=\"https://image.flaticon.com/icons/svg/25/25430.svg\" /> <span>" + ruta.vehicle.description + " - " + ruta.vehicle.carPlate + "</span></td>"
                 + " <td>";
         var htmlBody = "";
@@ -327,7 +338,33 @@ $(document).ready(function (e) {
             mainArrayService.push(location);
         });
         $("#tablaResultado tbody").append(htmlHead + htmlBody + htmlFooter);
+
+        $("#ver" + ruta.vehicle.vehicleId + "").click(function (e) {
+            if ($(this).is(":checked")) {
+                initMap();
+                mainArrayService = [];
+                agregarDeposito(mainDeposito);
+                var location = new google.maps.LatLng(mainDeposito.location.latitude, mainDeposito.location.longitude);
+                mainArrayService.push(location);
+                ruta.clients.forEach(function (cliente) {
+                    agregarMarkerCliente(cliente);
+                    var clienteLoc = new google.maps.LatLng(cliente.location.latitude, cliente.location.longitude);
+                    mainArrayService.push(clienteLoc);
+                });
+
+                mainArrayService.push(location);
+                calcRoute(color);
+            }
+        });
     }
+
+    $("#ver").click(function (e) {
+
+        if ($(this).is(":checked")) {
+            listarResultado(mainData);
+        }
+
+    });
 
     function agregarMarkerCliente(cliente) {
 
